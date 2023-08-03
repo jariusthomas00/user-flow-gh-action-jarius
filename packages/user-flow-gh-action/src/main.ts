@@ -52,7 +52,9 @@ export async function run(): Promise<void> {
     const {resultSummary, resultPath} = processResult(resultsOutPath);
     // cleanup tmp folder
     if (existsSync(resultsOutPath)) {
-      rmdirSync(resultsOutPath, {recursive: true});
+      //rmdirSync(resultsOutPath, {recursive: true});
+      core.setOutput("results OUT Path:", resultsOutPath);
+      
     }
 
     core.setOutput('resultPath', resultPath);
