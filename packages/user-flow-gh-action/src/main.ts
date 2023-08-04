@@ -32,12 +32,13 @@ export async function run(): Promise<void> {
     const { persist } = rcFileObj;
     const rcOutPath = persist.outPath;
     resultsOutPath = ghActionInputs.outPath || rcOutPath;
-    core.setOutput("results OUT Path:", resultsOutPath);
+    
     const allResults = readdirSync(resultsOutPath);
     if (!allResults.length) {
       throw new Error(`No results present in folder ${resultsOutPath}`);
     }
-
+    core.setOutput("results OUT Path:", resultsOutPath);
+    core.debug("results OUT Path: " , resultsOutPath);
     core.endGroup();
   } catch (error) {
     if (error instanceof Error) {
