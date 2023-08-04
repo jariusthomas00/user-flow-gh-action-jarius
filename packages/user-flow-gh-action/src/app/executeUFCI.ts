@@ -9,8 +9,8 @@ export async function executeUFCI(
   run: (bin: string, args: string[]) => any = runUserFlowCliCommand
 ): Promise<string> {
   return new Promise((resolve) => {
-    // override format
-    ghActionInputs.format =  ['md'];
+    // override format to an actual good format.
+    ghActionInputs.format =  ['json', 'md', 'html'];
 
     const command =  'collect';
     const script = `npx @push-based/user-flow ${command}`;
