@@ -24,6 +24,7 @@ export async function run(): Promise<void> {
       core.debug(`Skip running tests. onlyComments is given`);
     } else {
     core.startGroup(`Execute user-flow`);
+      core.debug(`[ J THOMAS CHECK ] - whats goin on guys michael roman here`);
     // @TODO retrieve result instead of readdirSync(ghActionInputs.outPath)
     await executeUFCI(ghActionInputs);
     core.endGroup();
