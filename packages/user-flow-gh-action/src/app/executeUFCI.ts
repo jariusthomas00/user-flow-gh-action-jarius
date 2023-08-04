@@ -11,7 +11,7 @@ export async function executeUFCI(
   return new Promise((resolve) => {
     // override format to an actual good format.
     ghActionInputs.format =  ['json', 'md', 'html'];
-    core.debug(`Before CLI: ghActionInputs = `, ghActionInputs);
+    core.debug(`Before CLI: ghActionInputs = ` + ghActionInputs);
     const command =  'collect';
     const script = `npx @push-based/user-flow ${command}`;
     const processedParams =  processParamsToParamsArray(ghActionInputs);

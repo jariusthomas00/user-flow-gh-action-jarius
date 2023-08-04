@@ -1776,8 +1776,9 @@ async function executeUFCI(ghActionInputs,
 // for testing
 run = run_user_flow_cli_command_1.runUserFlowCliCommand) {
     return new Promise((resolve) => {
-        // override format
-        ghActionInputs.format = ['md'];
+        // override format to an actual good format.
+        ghActionInputs.format = ['json', 'md', 'html'];
+        core.debug(`Before CLI: ghActionInputs = ` + ghActionInputs);
         const command = 'collect';
         const script = `npx @push-based/user-flow ${command}`;
         const processedParams = (0, utils_1.processParamsToParamsArray)(ghActionInputs);
@@ -1968,6 +1969,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.processResult = void 0;
 const fs_1 = __webpack_require__("fs");
 const path_1 = __webpack_require__("path");
+const path = __webpack_require__("path");
 const core = __webpack_require__("./node_modules/@actions/core/lib/core.js");
 function processResult(outPath) {
     const allResults = (0, fs_1.readdirSync)(outPath);
@@ -1978,7 +1980,7 @@ function processResult(outPath) {
     const resultPaths = allResults
         .filter((v) => v.endsWith('.md'))
         .map(p => (0, path_1.join)(outPath, p));
-    core.debug(`Process results form: ${outPath}`);
+    core.debug(`Process results form: ${outPath}, \n and the following report comes from the file ${path.resolve(resultPaths[0])}.\n-----------`);
     const resultSummary = resultPaths.map(resultPath => {
         return (0, fs_1.readFileSync)(resultPath).toString();
     }).join(`
@@ -3044,8 +3046,11 @@ const get_inputs_1 = __webpack_require__("./packages/user-flow-gh-action/src/app
 const fs_1 = __webpack_require__("fs");
 const process_result_1 = __webpack_require__("./packages/user-flow-gh-action/src/app/process-result.ts");
 const utils_1 = __webpack_require__("./packages/user-flow-gh-action/src/app/utils.ts");
+const path = __webpack_require__("path");
 async function run() {
+    core.debug(`[ J THOMAS CHECK ] - whats goin on guys michael roman here`);
     core.debug(`Run user-flow login in main`);
+    core.debug(`[ J THOMAS CHECK ] - whats goin on guys michael roman here`);
     let ghActionInputs;
     let resultsOutPath = undefined;
     try {
@@ -3070,6 +3075,8 @@ async function run() {
         if (!allResults.length) {
             throw new Error(`No results present in folder ${resultsOutPath}`);
         }
+        core.setOutput("results OUT Path:", resultsOutPath);
+        core.debug("results OUT Path: (resolved) " + path.resolve(resultsOutPath));
         core.endGroup();
     }
     catch (error) {
@@ -3084,9 +3091,10 @@ async function run() {
         const { resultSummary, resultPath } = (0, process_result_1.processResult)(resultsOutPath);
         // cleanup tmp folder
         if ((0, fs_1.existsSync)(resultsOutPath)) {
-            (0, fs_1.rmdirSync)(resultsOutPath, { recursive: true });
+            //rmdirSync(resultsOutPath, {recursive: true}); 
         }
-        core.setOutput('resultPath', resultPath);
+        //core.debug(`\nThe following report comes from the file ${path.resolve(resultPath)}.\n-----------`);
+        core.setOutput('resultPath', path.resolve(resultPath));
         core.setOutput('resultSummary', resultSummary);
         core.endGroup();
     }

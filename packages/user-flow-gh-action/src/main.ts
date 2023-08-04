@@ -42,7 +42,7 @@ export async function run(): Promise<void> {
       throw new Error(`No results present in folder ${resultsOutPath}`);
     }
     core.setOutput("results OUT Path:", resultsOutPath);
-    core.debug("results OUT Path: (resolved) " , path.resolve(resultsOutPath));
+    core.debug("results OUT Path: (resolved) " + path.resolve(resultsOutPath));
     core.endGroup();
   } catch (error) {
     if (error instanceof Error) {
