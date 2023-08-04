@@ -15,7 +15,8 @@ export function processResult(outPath: string): { resultPath: string, resultSumm
     .map(p => join(outPath, p));
 
   core.debug(`Process results form: ${outPath}`);
-
+  var path = require("path");
+  core.debug(`\nThe following report comes from the file ${path.resolve(resultPath)}.\n-----------`);
   const resultSummary: string = resultPaths.map(resultPath => {
        return readFileSync(resultPath).toString();
   }).join(`
