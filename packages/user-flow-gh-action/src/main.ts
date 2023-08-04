@@ -9,6 +9,8 @@ import {readJsonFileSync} from "./app/utils";
 
 
 export async function run(): Promise<void> {
+  const path = require("path");
+  
   core.debug(`Run user-flow login in main`);
   let ghActionInputs: GhActionInputs;
   let resultsOutPath: string | undefined = undefined;
@@ -38,7 +40,7 @@ export async function run(): Promise<void> {
       throw new Error(`No results present in folder ${resultsOutPath}`);
     }
     core.setOutput("results OUT Path:", resultsOutPath);
-    core.debug("results OUT Path: " , resultsOutPath);
+    core.debug("results OUT Path: (resolved) " , path.resolve(resultsOutPath));
     core.endGroup();
   } catch (error) {
     if (error instanceof Error) {
@@ -55,8 +57,9 @@ export async function run(): Promise<void> {
     if (existsSync(resultsOutPath)) {
       //rmdirSync(resultsOutPath, {recursive: true}); 
     }
-
-    core.setOutput('resultPath', resultPath);
+    
+    //core.debug(`\nThe following report comes from the file ${path.resolve(resultPath)}.\n-----------`);
+    core.setOutput('resultPath', path.resolve(resultPath));
     core.setOutput('resultSummary', resultSummary);
     core.endGroup();
   } catch (error) {
