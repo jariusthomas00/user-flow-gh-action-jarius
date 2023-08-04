@@ -32,7 +32,7 @@ export async function run(): Promise<void> {
     const { persist } = rcFileObj;
     const rcOutPath = persist.outPath;
     resultsOutPath = ghActionInputs.outPath || rcOutPath;
-
+    core.setOutput("results OUT Path:", resultsOutPath);
     const allResults = readdirSync(resultsOutPath);
     if (!allResults.length) {
       throw new Error(`No results present in folder ${resultsOutPath}`);
@@ -52,9 +52,7 @@ export async function run(): Promise<void> {
     const {resultSummary, resultPath} = processResult(resultsOutPath);
     // cleanup tmp folder
     if (existsSync(resultsOutPath)) {
-      //rmdirSync(resultsOutPath, {recursive: true});
-      core.setOutput("results OUT Path:", resultsOutPath);
-      
+      //rmdirSync(resultsOutPath, {recursive: true}); 
     }
 
     core.setOutput('resultPath', resultPath);
