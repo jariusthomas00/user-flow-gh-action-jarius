@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync, rmSync } from 'fs';
 import {join} from 'path';
+import * as path from 'path';
 import * as core from '@actions/core';
 
 export function processResult(outPath: string): { resultPath: string, resultSummary: string } {
@@ -14,9 +15,7 @@ export function processResult(outPath: string): { resultPath: string, resultSumm
     .filter((v) => v.endsWith('.md'))
     .map(p => join(outPath, p));
 
-  core.debug(`Process results form: ${outPath}`);
-  var path = require("path");
-  core.debug(`\nThe following report comes from the file ${path.resolve(resultPath)}.\n-----------`);
+  core.debug(`Process results form: ${outPath}, \n and the following report comes from the file ${path.resolve(resultPath)}.\n-----------`);
   const resultSummary: string = resultPaths.map(resultPath => {
        return readFileSync(resultPath).toString();
   }).join(`
