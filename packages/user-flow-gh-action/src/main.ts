@@ -5,13 +5,14 @@ import {existsSync, readdirSync, rmdirSync} from 'fs';
 import {processResult} from './app/process-result';
 import {GhActionInputs} from './app/types';
 import {readJsonFileSync} from "./app/utils";
-
+import * as path from 'path';
 
 
 export async function run(): Promise<void> {
-  const path = require("path");
   
+  core.debug(`[ J THOMAS CHECK ] - whats goin on guys michael roman here`);
   core.debug(`Run user-flow login in main`);
+  core.debug(`[ J THOMAS CHECK ] - whats goin on guys michael roman here`);
   let ghActionInputs: GhActionInputs;
   let resultsOutPath: string | undefined = undefined;
 
@@ -24,7 +25,7 @@ export async function run(): Promise<void> {
       core.debug(`Skip running tests. onlyComments is given`);
     } else {
     core.startGroup(`Execute user-flow`);
-      core.debug(`[ J THOMAS CHECK ] - whats goin on guys michael roman here`);
+    
     // @TODO retrieve result instead of readdirSync(ghActionInputs.outPath)
     await executeUFCI(ghActionInputs);
     core.endGroup();
